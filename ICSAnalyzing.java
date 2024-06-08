@@ -10,7 +10,8 @@ import java.util.Map;
 
 class ICSAnalyzing {
     public static void main(String[] args) {
-        String fileName = "icalexport.ics";
+        //String fileName = "icalexport.ics";
+        String fileName = args[0];
         Map<Integer, List<String>> contentMap = new HashMap<>();
         int numEvent = 0;
 
