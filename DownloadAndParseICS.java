@@ -1,17 +1,57 @@
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+//import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+//import java.io.InputStream;
+//import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class ICSAnalyzing {
+public class DownloadAndParseICS {
+
     public static void main(String[] args) {
-        //String fileName = "icalexport.ics";
-        String fileName = args[0];
+
+        String urlString = "https://moodle.ncku.edu.tw/calendar/export_execute.php?userid=204431&authtoken=eaa2da79919eefaf40536173ff47f443d2012ae2&preset_what=all&preset_time=custom";
+        //String urlString = args[0];
+        String filePath = "icalexport.ics"; // Path to save the downloaded file
+
+        // Download the .ics file
+        try {
+            URL url = new URI(urlString).toURL();
+            downloadFile(url, filePath);
+        } catch (URISyntaxException | IOException e) {
+            e.printStackTrace();
+        }
+
+        // Parse the downloaded .ics file
+        parseICSFile(filePath, "output");
+    }
+
+    public static void downloadFile(URL url, String filePath) {
+        try (BufferedInputStream in = new BufferedInputStream(url.openStream());
+             FileOutputStream fileOutputStream = new FileOutputStream(filePath)) {
+            byte dataBuffer[] = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
+                fileOutputStream.write(dataBuffer, 0, bytesRead);
+            }
+            System.out.println("File downloaded successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Function to parse the downloaded .ics file
+    public static void parseICSFile(String fileName, String outputFileName) {
         Map<Integer, List<String>> contentMap = new HashMap<>();
         int numEvent = 0;
 
@@ -48,7 +88,7 @@ class ICSAnalyzing {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        WriteToFile.File("output", contentMap, numEvent);
+        WriteToFile.File(outputFileName, contentMap, numEvent);
     }
 }
 
