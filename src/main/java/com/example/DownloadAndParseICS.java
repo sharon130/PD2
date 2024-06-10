@@ -1,4 +1,5 @@
-package src.main;
+package com.example;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
