@@ -1,3 +1,4 @@
+package src.main;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -20,9 +21,9 @@ public class DownloadAndParseICS {
 
     public static void main(String[] args) {
 
-        String urlString = "https://moodle.ncku.edu.tw/calendar/export_execute.php?userid=204431&authtoken=eaa2da79919eefaf40536173ff47f443d2012ae2&preset_what=all&preset_time=custom";
-        //String urlString = args[0];
-        String filePath = "icalexport.ics"; // Path to save the downloaded file
+        //String urlString = "https://moodle.ncku.edu.tw/calendar/export_execute.php?userid=204431&authtoken=eaa2da79919eefaf40536173ff47f443d2012ae2&preset_what=all&preset_time=custom";
+        String urlString = args[0];
+        String filePath = "inoutCalexport.ics"; // Path to save the downloaded file
 
         // Download the .ics file
         try {
@@ -33,7 +34,7 @@ public class DownloadAndParseICS {
         }
 
         // Parse the downloaded .ics file
-        parseICSFile(filePath, "output");
+        parseICSFile(filePath, "outputEvent");
     }
 
     public static void downloadFile(URL url, String filePath) {
